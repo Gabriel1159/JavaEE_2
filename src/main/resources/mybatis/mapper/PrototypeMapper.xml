@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.backend.mapper.PrototypeMapper">
+    <insert id="creatPrototype" parameterType="com.example.backend.pojo.Prototype" >
+        insert into
+            t_prototype(f_prototypeId,f_projectId,f_prototypeName,f_prototypeMap,f_createDate, f_creator, f_modifyDate, f_modifier,f_width,f_height)
+        values (#{f_prototypeId},#{f_projectId},#{f_prototypeName},#{f_prototypeMap},#{f_createDate }, #{f_creator}, #{f_modifyDate}, #{f_modifier},#{f_width},#{f_height});
+    </insert>
+    <insert id="recoverPrototype">
+        insert into t_prototype
+        (select * from t_prototype_dustbin
+        where f_projectId=#{proID});
+    </insert>
+
+    <update id="savePrototype" >
+        update t_prototype
+            set f_prototypeMap = #{f_prototypeMap}
+            where f_prototypeId = #{f_prototypeId};
+    </update>
+    <delete id="deletePrototypeInDustbin">
+        delete from t_prototype_dustbin
+        where f_projectId=#{proID};
+    </delete>
+    <delete id="delPrototype">
+        delete from t_prototype
+        where f_projectId=#{proID};
+    </delete>
+    <delete id="delPrototypeInDustbin">
+        delete from t_prototype_dustbin
+        where f_projectId=#{proID};
+    </delete>
+    <insert id="deletePrototype">
+        insert into t_prototype_dustbin
+        (select * from t_prototype
+        where f_projectId=#{proID});
+    </insert>
+    <insert id="addPrototype">
+        insert into
+            t_prototype(f_prototypeId,f_projectId,f_prototypeName,f_prototypeMap,f_createDate, f_creator, f_modifyDate, f_modifier,f_width,f_height)
+        values (#{f_prototypeId},#{f_projectId},#{f_prototypeName},#{f_prototypeMap},#{f_createDate }, #{f_creator}, #{f_modifyDate}, #{f_modifier},#{f_width},#{f_height});
+    </insert>
+
+    <select id="selectPrototype" resultType="com.example.backend.pojo.Prototype">
+        select * from t_prototype
+            where f_prototypeId = #{f_prototypeId};
+    </select>
+
+    <select id="getPrototypes" resultType="com.example.backend.pojo.Prototype">
+        select * from t_prototype
+            where f_projectId = #{f_projectId};
+    </select>
+    <select id="getProjectByPrototype" resultType="String">
+        select f_projectId from t_prototype
+            where f_prototypeId = #{f_prototypeId};
+    </select>
+    <select id="getPrototypeByProjectID" resultType="com.example.backend.pojo.Prototype">
+        select * from t_prototype where f_projectId = #{f_projectId};
+    </select>
+    <select id="getPrototypeByID" resultType="com.example.backend.pojo.Prototype">
+        select * from t_prototype where f_prototypeId=#{prototypeId}
+    </select>
+    <select id="accurateFind" resultType="com.example.backend.pojo.Prototype">
+        select * from t_prototype where f_prototypeName=#{name} or f_prototypeName like concat(#{name}, ' - %');
+    </select>
+    <select id="searchPrototypeByName" resultType="java.lang.Integer">
+        select count(*) from t_prototype where f_prototypeName=#{f_prototypeName};
+    </select>
+</mapper>

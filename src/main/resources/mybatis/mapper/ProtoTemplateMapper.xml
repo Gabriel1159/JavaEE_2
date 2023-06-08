@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.backend.mapper.ProtoTemplateMapper">
+    <select id="reqAllTemplate" resultType="com.example.backend.pojo.ProtoTemplate">
+        select * from t_prototype_template;
+    </select>
+    <insert id="insertTemplate" parameterType="com.example.backend.pojo.ProtoTemplate" useGeneratedKeys="true" keyProperty="f_tpId">
+        insert into t_prototype_template (f_tpName, f_tpMap, f_tpWidth, f_tpHeight) VALUES (#{f_tpName},#{f_tpMap},#{f_tpWidth},#{f_tpHeight});
+    </insert>
+    <delete id="delTemplate">
+        delete from t_prototype_template where f_tpId = #{tpId};
+    </delete>
+    <select id="reqTemplateBY_I" resultType="com.example.backend.pojo.ProtoTemplate">
+        select * from t_prototype_template where f_tpId=#{tpId};
+    </select>
+    <select id="exist" parameterType="com.example.backend.pojo.ProtoTemplate" resultType="java.lang.Integer">
+        select count(*) from t_prototype_template where f_tpHeight=#{f_tpHeight} and f_tpWidth=#{f_tpWidth} and f_tpMap=#{f_tpMap};
+    </select>
+</mapper>

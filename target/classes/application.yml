@@ -1,0 +1,10 @@
+file:
+  upload:
+    address: image
+  download:
+    address: /root/backenddata/default.jpg
+url:
+  login: http://localhost:8081/login
+
+
+

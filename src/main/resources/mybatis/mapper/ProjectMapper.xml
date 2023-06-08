@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.backend.mapper.ProjectMapper">
+    <insert id="addProject" parameterType="com.example.backend.pojo.Project">
+        insert into t_project (f_proName, f_proDescription, f_proID, f_proCreator, f_teamID, f_createDate)
+        values (#{f_proName}, #{f_proDescription}, #{f_proID}, #{f_proCreator}, #{f_teamID}, #{f_createDate});
+    </insert>
+    <update id="renameProject" parameterType="com.example.backend.pojo.Project">
+        update t_project
+        set f_proName=#{newName}
+        where f_proID=#{proID};
+    </update>
+
+    <update id="reDescribeProject" parameterType="com.example.backend.pojo.Project">
+        update t_project
+        set f_proDescription=#{newDes}
+        where f_proID=#{proID};
+    </update>
+
+    <update id="deleteProject">
+        update t_project
+        set f_proStatus=1
+        where f_proID=#{proID};
+    </update>
+    <update id="dustbinToProject">
+        update t_project
+        set f_proStatus=0
+        where f_proID=#{proID};
+    </update>
+    <update id="updateProTexts">
+        update t_project
+        set f_protexts = #{textID}
+        where f_proID=#{proID};
+    </update>
+    <delete id="deleteProjectInDustbin">
+        delete from t_project where f_proID=#{proID};
+    </delete>
+    <select id="showProjects" resultType="com.example.backend.pojo.Project">
+        select * from t_project where f_proStatus=0;
+    </select>
+    <select id="showProjectsDustbin" resultType="com.example.backend.pojo.Project">
+        select * from t_project where f_proStatus=1;
+    </select>
+    <select id="findProByID" resultType="java.lang.Integer">
+        select count(*) from t_project where f_proID=#{proID};
+    </select>
+    <select id="checkName" resultType="java.lang.Integer">
+        select count(*) from t_project where f_proID=#{id} and f_proName=#{name};
+    </select>
+    <select id="checkDescribe" resultType="java.lang.Integer">
+        select count(*) from t_project where f_proID=#{pid} and f_proDescription=#{des};
+    </select>
+    <select id="findProByIDNotDeleted" resultType="java.lang.Integer">
+        select count(*) from t_project where f_proID=#{proID} and f_proStatus=0;
+    </select>
+    <select id="findProByIDDeleted" resultType="java.lang.Integer">
+        select count(*) from t_project where f_proID=#{proID} and f_proStatus=1;
+    </select>
+    <select id="findTeamIDbyProID" resultType="java.lang.Integer">
+        select f_teamID from t_project where f_proID=#{id};
+    </select>
+    <select id="searchProjectByProID" resultType="com.example.backend.pojo.Project">
+        select * from t_project where f_proID=#{proID};
+    </select>
+    <select id="getProTexts" resultType="java.lang.String">
+        select f_protexts from t_project where f_proID=#{proID};
+    </select>
+    <select id="getProjectByID" resultType="com.example.backend.pojo.Project">
+        select * from t_project where f_proID=#{projectId};
+    </select>
+    <select id="vagueFind" resultType="com.example.backend.pojo.Project">
+        select * from t_project where instr(f_proName,#{searchText}) > 0 and f_proStatus=0;
+    </select>
+    <select id="accurateFind" resultType="com.example.backend.pojo.Project">
+        select * from t_project where f_proStatus=0 and (f_proName=#{name} or f_proName like concat(#{name}, ' - %'));
+    </select>
+    <select id="getAllProName" resultType="java.lang.String">
+        select f_proName from t_project;
+    </select>
+    <select id="showProjectsInTeam" resultType="com.example.backend.pojo.Project">
+        select * from t_project where f_teamID=#{tid};
+    </select>
+</mapper>

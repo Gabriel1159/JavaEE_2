@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.backend.mapper.TopicMapper">
+    <insert id="addTopic" parameterType="com.example.backend.pojo.Topic">
+        insert into topic(t_uid,t_kind,create_time,t_content,t_title,t_introduce)
+            values (#{t_uid},#{t_kind},#{create_time},#{t_content},#{t_title},#{t_introduce})
+    </insert>
+
+    <delete id="deleteTopicById">
+        delete  from topic
+            where t_uid = #{u_id} and t_id = #{t_id}
+    </delete>
+
+    <select id="getTopicById" resultType="com.example.backend.pojo.Topic">
+        select * from topic
+            where t_uid = #{u_id} and t_id = #{t_id}
+    </select>
+
+    <select id="getLikes" resultType="java.lang.Integer">
+        select count(*) from likes
+            where t_id = #{t_id};
+    </select>
+    <select id="getCommentList" resultType="com.example.backend.pojo.Comment">
+        select * from comments
+            where c_tid=#{c_tid}
+    </select>
+    <select id="getTopicByUId" resultType="com.example.backend.pojo.Topic">
+        select * from topic
+            where t_uid = #{u_id}
+    </select>
+
+
+    <insert id="addLike" parameterType="com.example.backend.pojo.Likes">
+        insert into likes(t_id,t_uid,l_uid)
+            values(#{t_id},#{t_id},#{l_uid})
+    </insert>
+
+    <delete id="deleteLike" parameterType="com.example.backend.pojo.Likes">
+        delete from likes
+            where t_id = #{t_id} and l_uid = #{l_uid}
+    </delete>
+
+    <insert id="addComment" parameterType="com.example.backend.pojo.Comment">
+        insert into comments(c_tid,c_uid,c_time,c_content)
+            values (#{c_tid},#{c_uid},#{c_time},#{c_content})
+    </insert>
+
+    <delete id="deleteComment">
+        delete from comments
+            where c_tid = #{c_tid} and c_uid = #{c_uid} and c_id = #{c_id}
+    </delete>
+
+</mapper>

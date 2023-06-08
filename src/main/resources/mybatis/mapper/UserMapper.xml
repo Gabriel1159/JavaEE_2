@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.backend.mapper.UserMapper">
+    <insert id="addUser" parameterType="com.example.backend.pojo.User" >
+        insert into user (f_userName, f_pwd)
+            values (#{f_userName}, #{f_pwd});
+    </insert>
+    <select id="findUserBYA" parameterType="java.lang.String" resultType="com.example.backend.pojo.User">
+        select * from t_user where f_account = #{account};
+    </select>
+    <select id="findUserBYU" parameterType="int" resultType="com.example.backend.pojo.User">
+        select * from t_user where f_uid = #{uid};
+    </select>
+    <select id="findUserBYN" parameterType="java.lang.String" resultType="com.example.backend.pojo.User">
+        select * from user where f_userName = #{userName};
+    </select>
+    <select id="findUserBYM" parameterType="java.lang.String" resultType="com.example.backend.pojo.User">
+        select * from t_user where f_mail= #{mail};
+    </select>
+    <delete id="delUser" parameterType="com.example.backend.pojo.User">
+        delete from t_user where f_uid = #{f_uid};
+    </delete>
+    <update id="updateUser" parameterType="com.example.backend.pojo.User">
+        update user set f_userName=#{f_userName},mail=#{f_mail},f_pwd = #{f_pwd} where u_id = #{u_id};
+    </update>
+    <select id="reqAllUser" resultType="java.lang.Integer">
+        select f_uid from t_user;
+    </select>
+    <select id="vagueFind" parameterType="string" resultType="java.lang.Integer">
+        select f_uid from t_user where instr(f_account,#{in}) > 0 or instr(f_userName,#{in}) > 0 or instr(f_realName,#{in});
+    </select>
+</mapper>

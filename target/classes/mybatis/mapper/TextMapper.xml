@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.backend.mapper.TextMapper">
+    <insert id="uploadText" parameterType="com.example.backend.pojo.Text" >
+        insert into t_text(f_textId,f_projectId,f_textName,f_text,f_createDate,f_creator,f_modifyDate,f_modifier, f_folderLabel, f_teamID)
+            values (#{f_textId},#{f_projectId},#{f_textName},#{f_text},#{f_createDate},#{f_creator},#{f_modifyDate},#{f_modifier}, #{f_folderLabel}, #{f_teamID});
+    </insert>
+    <insert id="deleteText">
+        insert into t_text_dustbin
+            (select * from t_text
+             where f_projectId=#{proID});
+    </insert>
+    <insert id="recoverText">
+        insert into t_text
+            (select * from t_text_dustbin
+             where f_projectId=#{proID});
+    </insert>
+    <delete id="delText">
+        delete from t_text
+        where f_projectId=#{proID};
+    </delete>
+    <delete id="delTextInDustbin">
+        delete from t_text_dustbin
+        where f_projectId=#{proID};
+    </delete>
+    <delete id="deleteTextInDustbin">
+        delete from t_text_dustbin
+        where f_projectId=#{proID};
+    </delete>
+    <delete id="delTextByTextID">
+        delete from t_text where f_textId=#{f_textId};
+    </delete>
+
+    <select id="downloadText" resultType="com.example.backend.pojo.Text">
+        select * from t_text where f_textId = #{f_textId}
+    </select>
+    <select id="searchTextByID" resultType="com.example.backend.pojo.Text">
+        select * from t_text where f_textId=#{f_textId};
+    </select>
+    <select id="searchTextByPro" resultType="java.lang.String">
+        select f_textId from t_text where f_projectId=#{proID};
+    </select>
+    <select id="accurateFind" resultType="com.example.backend.pojo.Text">
+        select * from t_text where f_textName=#{name} or f_textName like concat(#{name}, ' - %');
+    </select>
+    <select id="searchTextByName" resultType="java.lang.Integer">
+        select count(*) from t_text where f_textName=#{f_textName};
+    </select>
+    <select id="searchTeamIntroText" resultType="com.example.backend.pojo.Text">
+        select * from t_text where f_teamID=#{tid} and f_folderLabel=#{folderName};
+    </select>
+    <select id="searchTextInFolder" resultType="com.example.backend.pojo.Text">
+        select * from t_text where f_teamID=#{tid} and f_folderLabel=#{folderName};
+    </select>
+    <select id="searchTextObjectByPro" resultType="com.example.backend.pojo.Text">
+        select * from t_text where f_projectId=#{f_proID};
+    </select>
+    <update id="setModifier">
+        update t_text
+            set f_modifier = #{f_modifier},f_modifyDate = #{f_date}
+            where f_textId = #{f_textId};
+    </update>
+    <update id="saveText">
+        update t_text
+            set f_text = #{f_text}
+        where f_textId = #{f_textId};
+    </update>
+    <update id="newUse">
+        update t_text set f_use = #{uid} where f_textId=#{textId};
+    </update>
+    <select id="whoUse" resultType="int">
+        select f_use from t_text where f_textId=#{textId};
+    </select>
+</mapper>

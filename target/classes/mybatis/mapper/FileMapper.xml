@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.backend.mapper.FileMapper">
+    <insert id="addPicture" parameterType="com.example.backend.pojo.Picture">
+        insert into
+            t_picture(f_pictureId, f_userAccount, f_filePath)
+        values
+            (#{f_pictureId}, #{f_userAccount}, #{f_filePath})
+    </insert>
+    <select id="selectPicture" resultType="java.lang.String">
+        select f_filePath from t_picture where f_pictureId = #{f_pictureId}
+    </select>
+    <insert id="addPrototype" parameterType="com.example.backend.pojo.Prototype">
+        insert into
+            t_prototype(f_prototypeId,f_projectId,f_prototypeName,f_prototypeMap,f_createDate, f_creator, f_modifyDate, f_modifier)
+        values (#{f_prototypeId},#{f_projectId},#{f_prototypeName},#{f_prototypeMap},#{f_createDate }, #{f_creator}, #{f_modifyDate}, #{f_modifier})
+    </insert>
+    <select id="selectPrototype" resultType="String">
+        select f_prototypeMap from t_prototype where f_prototypeId = #{f_prototypeId}
+    </select>
+
+    <update id="setFilePath">
+        update t_picture
+        set f_filePath = #{f_filePath}
+        where f_pictureId = #{f_pictureId};
+    </update>
+</mapper>

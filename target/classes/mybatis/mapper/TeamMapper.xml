@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.backend.mapper.TeamMapper">
+    <insert id="addTeam" parameterType="com.example.backend.pojo.Team" useGeneratedKeys="true" keyProperty="f_tid">
+        insert into t_team (f_tName,f_bid,f_superUserStr,
+                            f_userStr,f_pids,f_Npids)
+                    values (#{f_tName},#{f_bid},#{f_superUserStr},
+                            #{f_userStr},#{f_pids},#{f_Npids})
+    </insert>
+    <delete id="delTeam" parameterType="com.example.backend.pojo.Team">
+        delete from t_team where f_tid = #{f_tid};
+    </delete>
+    <update id="updateTeam" parameterType="com.example.backend.pojo.Team">
+        update t_team set f_tName = #{f_tName}, f_bid = #{f_bid}, f_superUserStr = #{f_superUserStr},
+                          f_userStr = #{f_userStr}, f_pids = #{f_pids} ,f_Npids = #{f_Npids} where f_tid=#{f_tid};
+    </update>
+    <select id="findTeamBYI" parameterType="int" resultType="com.example.backend.pojo.Team">
+        select * from t_team where f_tid = #{f_tid};
+    </select>
+    <select id="findTeamBYN" parameterType="java.lang.String" resultType="com.example.backend.pojo.Team">
+        select * from t_team where f_tName = #{f_tName};
+    </select>
+</mapper>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.backend.mapper.InvitationMapper">
+    <insert id="insertInvitation" parameterType="com.example.backend.pojo.Invitation" useGeneratedKeys="true" keyProperty="f_vid">
+        insert into t_invitation (f_from, f_to, f_tid) VALUES (#{f_from},#{f_to},#{f_tid});
+    </insert>
+    <select id="reqInvitation" resultType="com.example.backend.pojo.Invitation">
+        select * from t_invitation where f_to = #{to};
+    </select>
+    <select id="findInvitation" resultType="com.example.backend.pojo.Invitation">
+        select * from t_invitation where f_from = #{from} and f_to = #{to} and f_tid = #{tid};
+    </select>
+    <select id="findInvitationBY_V" resultType="com.example.backend.pojo.Invitation" parameterType="int">
+        select * from t_invitation where f_vid = #{vid};
+    </select>
+    <delete id="delInvitation">
+        delete from t_invitation where f_vid = #{vid};
+    </delete>
+    <delete id="delRelativeInvitationBY_U" parameterType="int">
+        delete from t_invitation where f_from = #{uid} or f_to = #{uid};
+    </delete>
+    <delete id="delRelativeInvitationBY_T" parameterType="int">
+        delete from t_invitation where f_tid = #{tid};
+    </delete>
+</mapper>
